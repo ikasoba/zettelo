@@ -1,6 +1,6 @@
 # Zettelo
 
-Zettelo is a Zettelkasten-style knowledge management system specifically designed to augment Large Language Models (LLMs). It functions as an MCP (Multi-Agent Communication Protocol) server, providing LLMs with a persistent, searchable, and structured knowledge base. This allows LLMs to:
+Zettelo is a Zettelkasten-style knowledge management system specifically designed to augment Large Language Models (LLMs). It functions as an MCP (Model Context Protocol) server, providing LLMs with a persistent, searchable, and structured knowledge base. This allows LLMs to:
 
 -   **Cache and Recall Information**: Store and retrieve facts, concepts, and specific data points for consistent and accurate responses.
 -   **Access Offline Knowledge**: Utilize a local knowledge base, reducing reliance on real-time web searches or external APIs for frequently needed information.
