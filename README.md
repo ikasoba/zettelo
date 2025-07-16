@@ -1,0 +1,113 @@
+# Zettelo
+
+Zettelo is a Zettelkasten-style knowledge management system specifically designed to augment Large Language Models (LLMs). It functions as an MCP (Multi-Agent Communication Protocol) server, providing LLMs with a persistent, searchable, and structured knowledge base. This allows LLMs to:
+
+-   **Cache and Recall Information**: Store and retrieve facts, concepts, and specific data points for consistent and accurate responses.
+-   **Access Offline Knowledge**: Utilize a local knowledge base, reducing reliance on real-time web searches or external APIs for frequently needed information.
+-   **Enhance Context and Reasoning**: Build a rich, interconnected web of knowledge that LLMs can leverage for deeper understanding and more nuanced outputs.
+
+## Key Features & How LLMs Can Use Them
+
+Zettelo exposes its functionalities as tools via an MCP server, enabling LLMs to interact with it programmatically.
+
+### 1. Zettelkasten-style Note Management
+
+Organize knowledge in an atomic, interconnected fashion. Each note represents a single idea or piece of information, linked to others.
+
+### 2. Persistent Storage
+
+All notes and their metadata are stored persistently. Note content is saved as Markdown files, while metadata (like tags) is indexed for fast retrieval.
+
+### 3. Front Matter Support
+
+Notes can include structured metadata using YAML front matter. This allows LLMs to categorize and add context to the information they store.
+
+**Example Front Matter:**
+
+```yaml
+---
+tags: ["programming", "go", "concurrency"]
+created_at: "2023-10-26T10:00:00Z"
+updated_at: "2023-10-26T10:00:00Z"
+---
+```
+
+### Available Tools for LLMs
+
+LLMs can interact with Zettelo using the following tools:
+
+#### `read_note(name: string)`
+
+Retrieves the content of a specific note by its unique name.
+
+-   **LLM Use Case**: When an LLM needs to recall a specific piece of information it previously stored, or to access a known concept.
+-   **Example**: An LLM might call `read_note("Go Concurrency Patterns")` to retrieve details about Go's concurrency model.
+
+#### `put_note(name: string, content: string)`
+
+Saves a new note or updates an existing one. If a note with the given name already exists, its content and metadata will be overwritten.
+
+-   **LLM Use Case**: To store new information learned during a conversation, to cache frequently requested data, or to update existing knowledge.
+-   **Example**: An LLM could call `put_note("Kubernetes Basics", "---
+--tags: [\"devops\", \"kubernetes\"]---\nKubernetes is an open-source container-orchestration system...")` to save a new note.
+
+#### `search_notes_by_tags(query: string, last_seek_position: string)`
+
+Searches for notes based on their tags. This powerful filtering mechanism allows LLMs to discover relevant information within the knowledge base.
+
+-   **Query Syntax**:
+    -   Use `|` for OR conditions (e.g., `"programming|devops"` finds notes tagged with "programming" OR "devops").
+    -   Use `&` for AND conditions (e.g., `"go&concurrency"` finds notes tagged with both "go" AND "concurrency").
+    -   Note: Parentheses are not supported; AND operations have higher precedence than OR.
+-   **`last_seek_position`**: Allows for paginated results, enabling LLMs to retrieve large sets of matching notes incrementally.
+-   **LLM Use Case**: To find all notes related to a specific topic, to gather information for a complex query, or to explore related concepts.
+-   **Example**: An LLM might call `search_notes_by_tags("python&machine-learning")` to find all notes related to Python and machine learning.
+
+#### `get_tags_stats(last_seek_position: string, limit: number)`
+
+Lists tags and the number of notes associated with those tags.
+
+-   **LLM Use Case**: To get an overview of the tags used in the knowledge base and their frequency, which can help in understanding the breadth of stored information or for suggesting relevant tags.
+-   **Example**: An LLM might call `get_tags_stats()` to see the most common tags, or `get_tags_stats(limit=10)` to get the top 10 tags.
+
+## Getting Started
+
+### Prerequisites
+
+-   Go (version 1.24.4 or later)
+
+### Installation
+
+```bash
+git clone https://github.com/ikasoba/zettelo.git
+cd zettelo
+go build -o zettelo .
+```
+
+### Running the Zettelo MCP Server
+
+To start the Zettelo MCP server, which LLMs can then connect to:
+
+```bash
+./zettelo serve
+```
+
+By default, Zettelo will store its data in `~/.zettelo`. You can specify a different home directory using the `--home` flag:
+
+```bash
+./zettelo serve --home /path/to/your/notes
+```
+
+Once the server is running, LLMs or other MCP-compatible clients can establish a connection and begin utilizing Zettelo's knowledge management tools.
+
+## Contributing
+
+Contributions are welcome! Please refer to the `LICENSE` file for licensing information.
+
+## License
+
+This project is licensed under the [LICENSE](LICENSE) file.
+
+---
+
+**Note**: This `README.md` was generated by Gemini CLI.
